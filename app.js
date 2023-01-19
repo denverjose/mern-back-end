@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
+const cors = require("cors");
 
 const feedRoutes = require('./routes/feed');
 const userRoutes = require('./routes/user');
@@ -56,6 +57,9 @@ app.use((req, res, next) => {
 app.use('/feed', feedRoutes);
 app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
+
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+
 
 app.use((error, req, res, next) => {
   console.log(error);
