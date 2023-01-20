@@ -15,7 +15,7 @@ const userRoutes = require("./routes/user");
 const authRoutes = require("./routes/auth");
 
 const app = express();
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: "https://golb.onrender.com" }));
 
 const fileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
