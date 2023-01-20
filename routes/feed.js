@@ -24,6 +24,8 @@ router.post(
 
 router.get("/blog/:blogId", isAuth, feedController.getBlog);
 
+router.get("/blog/search/:title", isAuth, feedController.searchBlog);
+
 router.put(
   "/blog/:blogId",
   isAuth,
@@ -33,7 +35,6 @@ router.put(
   ],
   feedController.updateBlog
 );
-
 router.patch("/blog/delete/:blogId", isAuth, feedController.deleteBlog);
 router.patch("/blog/draft/:blogId", isAuth, feedController.draftBlog);
 

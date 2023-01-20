@@ -60,7 +60,7 @@ exports.createBlog = (req, res, next) => {
     .save()
     .then((result) => {
       res.status(201).json({
-        message: "Post created successfully!",
+        message: "Blog created successfully!",
         blog: blog,
         creator: { _id: blog.creator._id, name: blog.creator.name },
       });
@@ -80,7 +80,7 @@ exports.getBlog = (req, res, next) => {
     .exec()
     .then((blog) => {
       if (!blog) {
-        const error = new Error("Could not find post.");
+        const error = new Error("Could not find blog.");
         error.statusCode = 404;
         throw error;
       }
@@ -94,6 +94,27 @@ exports.getBlog = (req, res, next) => {
     });
 };
 
+exports.searchBlog = (req, res, next) => {
+  const title = req.params.title;
+  Blog.find({ title: title })
+    .populate("creator")
+    .exec()
+    .then((blogs) => {
+      console.log(blogs)
+      if (!blogs) {
+        const error = new Error("Could not find blog.");
+        error.statusCode = 404;
+        throw error;
+      }
+      res.status(200).json({ message: "Blog fetched.", blogs: blogs });
+    })
+    .catch((err) => {
+      if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+};
 exports.updateBlog = (req, res, next) => {
   const blogId = req.params.blogId;
   const errors = validationResult(req);
@@ -163,7 +184,7 @@ exports.deleteBlog = (req, res, next) => {
       return blog.save();
     })
     .then((result) => {
-      res.status(200).json({ message: "Deleted post." });
+      res.status(200).json({ message: "Deleted blog." });
     })
     .catch((err) => {
       if (!err.statusCode) {
