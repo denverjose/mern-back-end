@@ -97,12 +97,12 @@ exports.getBlog = (req, res, next) => {
 
 exports.searchBlog = (req, res, next) => {
   const title = req.params.title;
-  Blog.find({ title: title })
+  const regex = new RegExp(title, "i");
+  Blog.find({ title: { $regex: regex } })
     .sort({ createdAt: -1 })
     .populate("creator")
     .exec()
     .then((blogs) => {
-      console.log(blogs);
       if (!blogs) {
         const error = new Error("Could not find blog.");
         error.statusCode = 404;

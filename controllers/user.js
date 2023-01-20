@@ -22,7 +22,6 @@ exports.getProfile = (req, res, next) => {
     // .limit(perPage);
     // })
     .then((user) => {
-      console.log(user);
       res.status(200).json({
         message: "Fetched user successfully.",
         user: user,
