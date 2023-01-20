@@ -11,6 +11,7 @@ exports.getBlogs = (req, res, next) => {
   // const perPage = 3;
   // let totalItems;
   Blog.find({ deletedAt: null, isDraft: false })
+    .sort({ createdAt: -1 })
     .populate("creator")
     // .countDocuments()
     // .then((count) => {
@@ -97,10 +98,11 @@ exports.getBlog = (req, res, next) => {
 exports.searchBlog = (req, res, next) => {
   const title = req.params.title;
   Blog.find({ title: title })
+    .sort({ createdAt: -1 })
     .populate("creator")
     .exec()
     .then((blogs) => {
-      console.log(blogs)
+      console.log(blogs);
       if (!blogs) {
         const error = new Error("Could not find blog.");
         error.statusCode = 404;

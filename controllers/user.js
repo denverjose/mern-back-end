@@ -42,6 +42,8 @@ exports.getProfileBlogs = (req, res, next) => {
   // const perPage = 3;
   // let totalItems;
   Blog.find({ deletedAt: null, isDraft: false, creator: profileId })
+    .sort({ createdAt: -1 })
+
     .populate("creator")
     // .countDocuments()
     // .then((count) => {
@@ -70,6 +72,8 @@ exports.getProfileDrafts = (req, res, next) => {
   // const perPage = 3;
   // let totalItems;
   Blog.find({ deletedAt: null, isDraft: true, creator: req.userId })
+    .sort({ createdAt: -1 })
+
     .populate("creator")
     // .countDocuments()
     // .then((count) => {
@@ -142,7 +146,7 @@ exports.updateUser = (req, res, next) => {
           throw error;
         }
         bcrypt.hash(newPassword, 12).then((hashedPw) => {
-          console.log('changed password')
+          console.log("changed password");
           loadedUser.password = hashedPw;
           loadedUser.passwordChances = loadedUser.passwordChances - 1;
           return loadedUser.save();
